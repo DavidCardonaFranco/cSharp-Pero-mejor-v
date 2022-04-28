@@ -2,6 +2,7 @@ options
 {
   static = true;
   LOOKAHEAD = 3;
+
 }
 
 PARSER_BEGIN(MyNewGrammar)
@@ -81,12 +82,12 @@ SKIP : {
 TOKEN :
 {
   <LITERAL : (<INTEGER_LITERAL> | <REAL_LITERAL>)>
-  | <#INTEGER_LITERAL : <DECIMAL_INTEGER_LITERAL>>
-    | <#DECIMAL_INTEGER_LITERAL : (< DECIMAL_DIGIT >)+ (INTEGER_TYPE_SUFFIX)?>
+  | <INTEGER_LITERAL : <DECIMAL_INTEGER_LITERAL>>
+    | <#DECIMAL_INTEGER_LITERAL : (< DECIMAL_DIGIT >)+ (<INTEGER_TYPE_SUFFIX>)?>
       | <#DECIMAL_DIGIT: ["0"-"9"]>
       | <#INTEGER_TYPE_SUFFIX: ("U" | "u" | "L" | "l" | "UL" | "Ul" | "uL" | "ul" | "LU" | "Lu" | "lU" | "lu")>
   
-  | <#REAL_LITERAL : (<DECIMAL_DIGIT>)+ "." (<DECIMAL_DIGIT>)+ (REAL_TYPE_SUFFIX)? | "." (<DECIMAL_DIGIT>)+ (REAL_TYPE_SUFFIX)? | (<DECIMAL_DIGIT>)+ (REAL_TYPE_SUFFIX)>
+  | <REAL_LITERAL : (<DECIMAL_DIGIT>)+ "." (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)? | "." (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)? | (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)>
     | <#REAL_TYPE_SUFFIX : ("F" | "f" | "D" | "d" | "M" | "m")>
 }
 
@@ -118,9 +119,14 @@ TOKEN :
 */
 TOKEN : 
 {
-  <OPERATOR_OR_PUNCTUATOR : ( "("  | ")"  | "."  | ","  | ":"  | ";" |  "+"  | "-"  | "%" | "*" | "/" | "=" | "++" | "--" | "+=" | "-=" | "*=" | "/=" | "%=" )>
+  <KEYWORD : ("int" | "float" | "long" | "double")>
 }
 
+
+TOKEN : 
+{
+  <OPERATOR_OR_PUNCTUATOR : ( "("  | ")"  | "."  | ","  | ":"  | ";" |  "+"  | "-"  | "%" | "*" | "/" | "=" | "++" | "--" | "+=" | "-=" | "*=" | "/=" | "%=" )>
+}
 
 /* 
 █ █▀▄ █▀▀ █▄░█ ▀█▀ █ █▀▀ █ █▀▀ ▄▀█ █▀▄ █▀█ █▀█ █▀▀ █▀
@@ -551,7 +557,7 @@ void local_variable_declarators():
 {System.out.println(" | local_variable_declarators");}
 {
   local_variable_declarator()
-| local_variable_declarators() "," local_variable_declarator()
+| "," local_variable_declarator()
 }
 
 void local_variable_declarator():
@@ -731,13 +737,13 @@ void primary_no_array_creation_expression():
 void  post_decrement_expression():
 {System.out.println(" | post_decrement_expression");}
 {
-  primary_expression() "--"
+   "--"
 }
 
 void  post_increment_expression():
 {System.out.println(" | post_increment_expression");}
 {
-  primary_expression() "++"
+  "++"
 }
 
 /*
