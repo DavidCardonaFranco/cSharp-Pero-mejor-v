@@ -79,6 +79,7 @@ SKIP : {
 █░░ █ ▀█▀ █▀▀ █▀█ ▄▀█ █░░
 █▄▄ █ ░█░ ██▄ █▀▄ █▀█ █▄▄
 */
+/*
 TOKEN :
 {
   <LITERAL : (<INTEGER_LITERAL> | <REAL_LITERAL>)>
@@ -89,6 +90,19 @@ TOKEN :
   
   | <REAL_LITERAL : (<DECIMAL_DIGIT>)+ "." (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)? | "." (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)? | (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)>
     | <#REAL_TYPE_SUFFIX : ("F" | "f" | "D" | "d" | "M" | "m")>
+}*/
+
+
+TOKEN :
+{
+< INTEGER_LITERAL: <DECIMAL_INTEGER_LITERAL >>
+| <#DECIMAL_INTEGER_LITERAL : (< DECIMAL_DIGIT >)+> /* Se puede aÃ±adir el Integer_Type_Suffix?*/
+| <#DECIMAL_DIGIT: ["0"-"9"] >
+}
+
+TOKEN : 
+{
+  <REAL_LITERAL : (<DECIMAL_DIGIT>)+ "." (<DECIMAL_DIGIT>)+ ("F" | "f" | "D" | "d" )? | "." (<DECIMAL_DIGIT>)+ | (<DECIMAL_DIGIT>)+ ("F" | "f" | "D" | "d" )>
 }
 
 /*
@@ -134,7 +148,7 @@ TOKEN :
 | <COMMA : ",">
 | <DOSPUNTOS : ":">
 | <PUNTOCOMA : ";">
-| <ASSIGN: ("=" | "+=" | "-=") >          
+| <ASSIGNMENT_OPERATOR: ("=" | "+=" | "-=") >          
 | <MINUS: "-" >
 | <PLUS :"+">
 | <STAR: "*" >
@@ -442,7 +456,7 @@ TOKEN:
 int one_line() :
 {}
 {
-  statement() ";"
+  statement() 
   {
     return 0;
   }
@@ -459,6 +473,7 @@ void statement():
 | embedded_statement()
 }
 
+
 /*
 █ █▀▄ █▀▀ █▄░█ ▀█▀ █ █▀▀ █ █▀▀ █▀█   ▀▀   █▀▀ ▀▄▀ █▀█ █▀█ █▀▀ █▀ █▀ █ █▀█ █▄░█
 █ █▄▀ ██▄ █░▀█ ░█░ █ █▀░ █ ██▄ █▀▄   ▀▀   ██▄ █░█ █▀▀ █▀▄ ██▄ ▄█ ▄█ █ █▄█ █░▀█
@@ -472,7 +487,7 @@ void embedded_statement():
 void expression_statement():
 {System.out.println(" | expression_statement");}
 {
-  statement_expression() ";" 
+  statement_expression() <PUNTOCOMA>
 }
 
 void statement_expression():
@@ -492,7 +507,7 @@ void statement_expression():
 void declaration_statement():
 {System.out.println(" | declaration_statement");}
 {
-  local_variable_declaration() ";"
+  local_variable_declaration() <PUNTOCOMA>
 }
 
 void local_variable_declaration():
@@ -552,16 +567,16 @@ void integral_type():
 {System.out.println(" | integral_type");
 Token token;}
 {
-  token = "int" {System.out.println(" type => " + token.image);}
-| token = "long" {System.out.println(" type => " + token.image);}
+  token = <INTEGER> {System.out.println(" type => " + token.image);}
+| token = <LONG> {System.out.println(" type => " + token.image);}
 }
 
 void floating_point_type():
 {System.out.println(" | floating_point_type");
 Token token;}
 {
-  token = "float" {System.out.println(" type => " + token.image);}
-| token = "double" {System.out.println(" type => " + token.image);}
+  token = <FLOAT> {System.out.println(" type => " + token.image);}
+| token = <DOUBLE> {System.out.println(" type => " + token.image);}
 }
 
 /*
@@ -572,14 +587,15 @@ void local_variable_declarators():
 {System.out.println(" | local_variable_declarators");}
 {
   local_variable_declarator()
-| "," local_variable_declarator()
+| <COMMA> local_variable_declarator()
 }
 
 void local_variable_declarator():
 {System.out.println(" | local_variable_declarator");}
 {
-  <IDENTIFIER>
-| <IDENTIFIER> "="  local_variable_initializer()
+  <IDENTIFIER> <ASSIGNMENT_OPERATOR>  local_variable_initializer()
+| <IDENTIFIER>
+
 }
 
 void local_variable_initializer():
@@ -603,20 +619,21 @@ void expression():
 void assignment():
 {System.out.println(" | assignment");}
 {
-  unary_expression() assignment_operator() expression()  
+  unary_expression() <ASSIGNMENT_OPERATOR> expression()  
 }
 
+/*
 void assignment_operator():
 {System.out.println(" | assignment_operator");
 Token token;}
 {
-  token = "="  {System.out.println(" assign => " + token.image);}
+  token = <ASSIGN>  {System.out.println(" assign => " + token.image);}
 | token = "+=" {System.out.println(" assign => " + token.image);}
 | token = "-=" {System.out.println(" assign => " + token.image);}
-/*| token = "*=" {System.out.println(" assign => " + token.image);}
+| token = "*=" {System.out.println(" assign => " + token.image);}
 | token = "/=" {System.out.println(" assign => " + token.image);}
-| token = "%=" {System.out.println(" assign => " + token.image);}*/
-}
+| token = "%=" {System.out.println(" assign => " + token.image);}
+}*/
 
 /*
 █▄░█ █▀█ █▄░█   ▄▀█ █▀ █▀ █ █▀▀ █▄░█
@@ -699,13 +716,13 @@ void shift_expression():
 void additive_expression():
 {System.out.println(" | additive_expression");}
 {
-  multiplicative_expression() ( ( "+" | "-" ) multiplicative_expression())*
+  multiplicative_expression() ( ( <PLUS> | <MINUS> ) multiplicative_expression())*
 }
 
 void multiplicative_expression():
 {System.out.println(" | multiplicative_expression");}
 {
-  unary_expression() ( ( "*" | "/" | "%" ) unary_expression())*
+  unary_expression() ( ( <STAR> | <SLASH> ) unary_expression())*
 }
 
 /*
@@ -716,7 +733,7 @@ void unary_expression():
 {System.out.println(" | unary_expression");}
 {
   primary_expression()
-| ( "+" | "-" ) unary_expression()
+| ( <PLUS> | <MINUS> ) unary_expression()
 | pre_increment_expression()
 | pre_decrement_expression()
 }
@@ -724,13 +741,13 @@ void unary_expression():
 void pre_increment_expression():
 {System.out.println(" | pre_increment_expression");}
 {
-  "++" unary_expression()
+  <PLUSPLUS> unary_expression()
 }
 
 void pre_decrement_expression():
 {System.out.println(" | pre_decrement_expression");}
 {
-  "--" unary_expression()
+  <MINMIN> unary_expression()
 }
 
 void primary_expression():
@@ -752,13 +769,13 @@ void primary_no_array_creation_expression():
 void  post_decrement_expression():
 {System.out.println(" | post_decrement_expression");}
 {
-   "--"
+   <MINMIN>
 }
 
 void  post_increment_expression():
 {System.out.println(" | post_increment_expression");}
 {
-  "++"
+  <PLUSPLUS>
 }
 
 /*
@@ -790,5 +807,5 @@ void simple_name():
 void  parenthesized_expression():
 {System.out.println(" | parenthesized_expression");}
 {
-  "(" expression() ")"
+  <LPAREN> expression() <RPAREN>
 }
