@@ -75,6 +75,8 @@ SKIP : {
 | "\f"
 }
 
+
+
 /*
 █░░ █ ▀█▀ █▀▀ █▀█ ▄▀█ █░░
 █▄▄ █ ░█░ ██▄ █▀▄ █▀█ █▄▄
@@ -456,7 +458,7 @@ TOKEN:
 int one_line() :
 {}
 {
-  statement() 
+  statement("") 
   {
     return 0;
   }
@@ -466,11 +468,11 @@ int one_line() :
   }
 }
 
-void statement():
-{System.out.println("statement:");}
+void statement(String espaciado):
+{System.out.println(espaciado+"statement:");}
 {
-  declaration_statement()
-| embedded_statement()
+  declaration_statement(espaciado+"  ")
+| embedded_statement(espaciado+"  ")
 }
 
 
@@ -478,137 +480,137 @@ void statement():
 █ █▀▄ █▀▀ █▄░█ ▀█▀ █ █▀▀ █ █▀▀ █▀█   ▀▀   █▀▀ ▀▄▀ █▀█ █▀█ █▀▀ █▀ █▀ █ █▀█ █▄░█
 █ █▄▀ ██▄ █░▀█ ░█░ █ █▀░ █ ██▄ █▀▄   ▀▀   ██▄ █░█ █▀▀ █▀▄ ██▄ ▄█ ▄█ █ █▄█ █░▀█
 */
-void embedded_statement():
-{System.out.println(" | embedded_statement");}
+void embedded_statement(String espaciado):
+{System.out.println(espaciado+" | embedded_statement");}
 {
-  expression_statement()
+  expression_statement(espaciado+"  ")
 }
 
-void expression_statement():
-{System.out.println(" | expression_statement");}
+void expression_statement(String espaciado):
+{System.out.println(espaciado+" | expression_statement");}
 {
-  statement_expression() <PUNTOCOMA>
+  statement_expression(espaciado+"  ") <PUNTOCOMA>
 }
 
-void statement_expression():
-{System.out.println(" | statement_expression");}
+void statement_expression(String espaciado):
+{System.out.println(espaciado+" | statement_expression");}
 {
-  assignment()
-| post_increment_expression()
-| post_decrement_expression()
-| pre_increment_expression()
-| pre_decrement_expression()
+  assignment(espaciado+"  ")
+| post_increment_expression(espaciado+"  ")
+| post_decrement_expression(espaciado+"  ")
+| pre_increment_expression(espaciado+"  ")
+| pre_decrement_expression(espaciado+"  ")
 }
 
 /*
 ▀█▀ █▄█ █▀█ █▀▀   █ █▀▄ █▀▀ █▄░█ ▀█▀ █ █▀▀ █ █▀▀ █▀█   ▀▀   █▀▀ ▀▄▀ █▀█ █▀█ █▀▀ █▀ █▀ █ █▀█ █▄░█
 ░█░ ░█░ █▀▀ ██▄   █ █▄▀ ██▄ █░▀█ ░█░ █ █▀░ █ ██▄ █▀▄   ▀▀   ██▄ █░█ █▀▀ █▀▄ ██▄ ▄█ ▄█ █ █▄█ █░▀█
 */
-void declaration_statement():
-{System.out.println(" | declaration_statement");}
+void declaration_statement(String espaciado):
+{System.out.println(espaciado+" | declaration_statement");}
 {
-  local_variable_declaration() <PUNTOCOMA>
+  local_variable_declaration(espaciado+"  ") <PUNTOCOMA>
 }
 
-void local_variable_declaration():
-{System.out.println(" | local_variable_declaration");}
+void local_variable_declaration(String espaciado):
+{System.out.println(espaciado+" | local_variable_declaration");}
 {
-  local_variable_type() local_variable_declarators()
+  local_variable_type(espaciado+"  ") local_variable_declarators(espaciado+"  ")
 }
 
 /*
 ▀█▀ █▄█ █▀█ █▀▀
 ░█░ ░█░ █▀▀ ██▄
 */
-void local_variable_type():
-{System.out.println(" | local_variable_type");}
+void local_variable_type(String espaciado):
+{System.out.println(espaciado+" | local_variable_type");}
 {
-  type()
+  type(espaciado+"  ")
 }
 
-void type():
-{System.out.println(" | type");}
+void type(String espaciado):
+{System.out.println(espaciado+" | type");}
 {
-  value_type()
+  value_type(espaciado+"  ")
 }
 
-void value_type():
-{System.out.println(" | value_type");}
+void value_type(String espaciado):
+{System.out.println(espaciado+" | value_type");}
 {
-  non_nullable_value_type()
+  non_nullable_value_type(espaciado+"  ")
 }
 
-void non_nullable_value_type():
-{System.out.println(" | non_nullable_value_type");}
+void non_nullable_value_type(String espaciado):
+{System.out.println(espaciado+" | non_nullable_value_type");}
 {
-  struct_type()
+  struct_type(espaciado+"  ")
 }
 
-void struct_type():
-{System.out.println(" | struct_type");}
+void struct_type(String espaciado):
+{System.out.println(espaciado+" | struct_type");}
 {
-  simple_type()
+  simple_type(espaciado+"  ")
 }
 
-void simple_type():
-{System.out.println(" | simple_type");}
+void simple_type(String espaciado):
+{System.out.println(espaciado+" | simple_type");}
 {
-  numeric_type()
+  numeric_type(espaciado+"  ")
 }
 
-void numeric_type():
-{System.out.println(" | numeric_type");}
+void numeric_type(String espaciado):
+{System.out.println(espaciado+" | numeric_type");}
 {
-  integral_type()
-| floating_point_type()
+  integral_type(espaciado+"  ")
+| floating_point_type(espaciado+"  ")
 }
 
-void integral_type():
-{System.out.println(" | integral_type");
+void integral_type(String espaciado):
+{System.out.println(espaciado+" | integral_type");
 Token token;}
 {
-  token = <INTEGER> {System.out.println(" type => " + token.image);}
-| token = <LONG> {System.out.println(" type => " + token.image);}
+  token = <INTEGER> {System.out.println(espaciado+" type => " + token.image);}
+| token = <LONG> {System.out.println(espaciado+" type => " + token.image);}
 }
 
-void floating_point_type():
-{System.out.println(" | floating_point_type");
+void floating_point_type(String espaciado):
+{System.out.println(espaciado+" | floating_point_type");
 Token token;}
 {
-  token = <FLOAT> {System.out.println(" type => " + token.image);}
-| token = <DOUBLE> {System.out.println(" type => " + token.image);}
+  token = <FLOAT> {System.out.println(espaciado+" type => " + token.image);}
+| token = <DOUBLE> {System.out.println(espaciado+" type => " + token.image);}
 }
 
 /*
 █ █▀▄ █▀▀ █▄░█ ▀█▀ █ █▀▀ █ █▀▀ █▀█   ▀▀   █▀▀ ▀▄▀ █▀█ █▀█ █▀▀ █▀ █▀ █ █▀█ █▄░█   ▀█
 █ █▄▀ ██▄ █░▀█ ░█░ █ █▀░ █ ██▄ █▀▄   ▀▀   ██▄ █░█ █▀▀ █▀▄ ██▄ ▄█ ▄█ █ █▄█ █░▀█   █▄
 */
-void local_variable_declarators():
-{System.out.println(" | local_variable_declarators");}
+void local_variable_declarators(String espaciado):
+{System.out.println(espaciado+" | local_variable_declarators");}
 {
-  local_variable_declarator()
-| <COMMA> local_variable_declarator()
+  local_variable_declarator(espaciado+"  ")
+| <COMMA> local_variable_declarator(espaciado+"  ")
 }
 
-void local_variable_declarator():
-{System.out.println(" | local_variable_declarator");}
+void local_variable_declarator(String espaciado):
+{System.out.println(espaciado+" | local_variable_declarator");}
 {
-  <IDENTIFIER> <ASSIGNMENT_OPERATOR>  local_variable_initializer()
+  <IDENTIFIER> <ASSIGNMENT_OPERATOR>  local_variable_initializer(espaciado+"  ")
 | <IDENTIFIER>
 
 }
 
-void local_variable_initializer():
-{System.out.println(" | local_variable_initializer");}
+void local_variable_initializer(String espaciado):
+{System.out.println(espaciado+" | local_variable_initializer");}
 {
-  expression()
+  expression(espaciado+"  ")
 }
 
-void expression():
-{System.out.println(" | expression");}
+void expression(String espaciado):
+{System.out.println(espaciado+" | expression");}
 {
-  assignment()
-| non_assignment_expression()
+  non_assignment_expression(espaciado+"  ")
+| assignment(espaciado+"  ")
 }
 
 /*
@@ -616,96 +618,96 @@ void expression():
 █▀█ ▄█ ▄█ █ █▄█ █░▀█
 */
 
-void assignment():
-{System.out.println(" | assignment");}
+void assignment(String espaciado):
+{System.out.println(espaciado+" | assignment");}
 {
-  unary_expression() <ASSIGNMENT_OPERATOR> expression()  
+  unary_expression(espaciado+"  ") (token = <ASSIGNMENT_OPERATOR> {System.out.println(espaciado+"   <ASSIGNMENT_OPERATOR> => " + token.image);}) expression(espaciado+"  ")  
 }
 
 /*
-void assignment_operator():
-{System.out.println(" | assignment_operator");
+void assignment_operator(String espaciado):
+{System.out.println(espaciado+" | assignment_operator");
 Token token;}
 {
-  token = <ASSIGN>  {System.out.println(" assign => " + token.image);}
-| token = "+=" {System.out.println(" assign => " + token.image);}
-| token = "-=" {System.out.println(" assign => " + token.image);}
-| token = "*=" {System.out.println(" assign => " + token.image);}
-| token = "/=" {System.out.println(" assign => " + token.image);}
-| token = "%=" {System.out.println(" assign => " + token.image);}
+  token = <ASSIGN>  {System.out.println(espaciado+" assign => " + token.image);}
+| token = "+=" {System.out.println(espaciado+" assign => " + token.image);}
+| token = "-=" {System.out.println(espaciado+" assign => " + token.image);}
+| token = "*=" {System.out.println(espaciado+" assign => " + token.image);}
+| token = "/=" {System.out.println(espaciado+" assign => " + token.image);}
+| token = "%=" {System.out.println(espaciado+" assign => " + token.image);}
 }*/
 
 /*
 █▄░█ █▀█ █▄░█   ▄▀█ █▀ █▀ █ █▀▀ █▄░█
 █░▀█ █▄█ █░▀█   █▀█ ▄█ ▄█ █ █▄█ █░▀█
 */
-void non_assignment_expression():
-{System.out.println(" | non_assignment_expression");}
+void non_assignment_expression(String espaciado):
+{System.out.println(espaciado+" | non_assignment_expression");}
 {
-  conditional_expression()
+  conditional_expression(espaciado)
 }
 
-void conditional_expression():
-{System.out.println(" |conditional_expression");}
+void conditional_expression(String espaciado):
+{System.out.println(espaciado+" |conditional_expression");}
 {
-  null_coalescing_expression()
+  null_coalescing_expression(espaciado)
 }
 
-void null_coalescing_expression():
-{System.out.println(" | null_coalescing_expression");}
+void null_coalescing_expression(String espaciado):
+{System.out.println(espaciado+" | null_coalescing_expression");}
 {
-  conditional_or_expression()
+  conditional_or_expression(espaciado)
 }
 
-void conditional_or_expression():
-{System.out.println(" | conditional_or_expression");}
+void conditional_or_expression(String espaciado):
+{System.out.println(espaciado+" | conditional_or_expression");}
 {
-  conditional_and_expression()
+  conditional_and_expression(espaciado)
 }
 
-void conditional_and_expression():
-{System.out.println(" | conditional_and_expression");}
+void conditional_and_expression(String espaciado):
+{System.out.println(espaciado+" | conditional_and_expression");}
 {
-  inclusive_or_expression()
+  inclusive_or_expression(espaciado)
 }
 
-void inclusive_or_expression():
-{System.out.println(" | inclusive_or_expression");}
+void inclusive_or_expression(String espaciado):
+{System.out.println(espaciado+" | inclusive_or_expression");}
 {
-  exclusive_or_expression()
+  exclusive_or_expression(espaciado)
 }
 
-void exclusive_or_expression():
-{System.out.println(" | exclusive_or_expression");}
+void exclusive_or_expression(String espaciado):
+{System.out.println(espaciado+" | exclusive_or_expression");}
 {
-  and_expression()
-}
-
-
-void and_expression():
-{System.out.println(" | and_expression");}
-{
-  equality_expression()
+  and_expression(espaciado)
 }
 
 
-void equality_expression():
-{System.out.println(" | equality_expression");}
+void and_expression(String espaciado):
+{System.out.println(espaciado+" | and_expression");}
 {
-  relational_expression()
+  equality_expression(espaciado)
 }
 
 
-void relational_expression():
-{System.out.println(" | relational_expression");}
+void equality_expression(String espaciado):
+{System.out.println(espaciado+" | equality_expression");}
 {
-  shift_expression()
+  relational_expression(espaciado)
 }
 
-void shift_expression():
-{System.out.println(" | shift_expression");}
+
+void relational_expression(String espaciado):
+{System.out.println(espaciado+" | relational_expression");}
 {
-  additive_expression()
+  shift_expression(espaciado)
+}
+
+void shift_expression(String espaciado):
+{System.out.println(espaciado+" | shift_expression");}
+{
+  additive_expression(espaciado)
 }
 
 /*
@@ -713,67 +715,70 @@ void shift_expression():
 █▀█ █▄▀ █▄▀ █ ░█░ █ ▀▄▀ ██▄
 */
 
-void additive_expression():
-{System.out.println(" | additive_expression");}
+void additive_expression(String espaciado):
+{System.out.println(espaciado+" | additive_expression");
+Token token;}
 {
-  multiplicative_expression() ( ( <PLUS> | <MINUS> ) multiplicative_expression())*
+  multiplicative_expression(espaciado+"  ") (( token = <PLUS> {System.out.println(espaciado+"   <PLUS> => " + token.image);} |  token = <MINUS> {System.out.println(espaciado+"   <MINUS> => " + token.image);} )multiplicative_expression(espaciado+"  "))*
+  
 }
 
-void multiplicative_expression():
-{System.out.println(" | multiplicative_expression");}
+void multiplicative_expression(String espaciado):
+{System.out.println(espaciado+" | multiplicative_expression");
+Token token;}
 {
-  unary_expression() ( ( <STAR> | <SLASH> ) unary_expression())*
+  unary_expression(espaciado+"  ") ( (token =  <STAR> {System.out.println(espaciado+"   <STAR> => " + token.image);}| token = <SLASH> {System.out.println(espaciado+"   <SLAHS> => " + token.image);}) unary_expression(espaciado+"  "))*
 }
 
 /*
 █░█ █▄░█ ▄▀█ █▀█ █▄█
 █▄█ █░▀█ █▀█ █▀▄ ░█░
 */
-void unary_expression():
-{System.out.println(" | unary_expression");}
+void unary_expression(String espaciado):
+{System.out.println(espaciado+" | unary_expression");}
 {
-  primary_expression()
-| ( <PLUS> | <MINUS> ) unary_expression()
-| pre_increment_expression()
-| pre_decrement_expression()
+  primary_expression(espaciado+"  ")
+| ( <PLUS> | <MINUS> ) unary_expression(espaciado+"  ")
+| pre_increment_expression(espaciado+"  ")
+| pre_decrement_expression(espaciado+"  ")
 }
 
-void pre_increment_expression():
-{System.out.println(" | pre_increment_expression");}
+void pre_increment_expression(String espaciado):
+{System.out.println(espaciado+" | pre_increment_expression");}
 {
-  <PLUSPLUS> unary_expression()
+  <PLUSPLUS> unary_expression(espaciado+"  ")
 }
 
-void pre_decrement_expression():
-{System.out.println(" | pre_decrement_expression");}
+void pre_decrement_expression(String espaciado):
+{System.out.println(espaciado+" | pre_decrement_expression");}
 {
-  <MINMIN> unary_expression()
+  <MINMIN> unary_expression(espaciado+"  ")
 }
 
-void primary_expression():
-{System.out.println(" | primary_expression");}
+void primary_expression(String espaciado):
+{System.out.println(espaciado+" | primary_expression");}
 {
-  primary_no_array_creation_expression()
+  primary_no_array_creation_expression(espaciado+"  ")
 }
 
-void primary_no_array_creation_expression():
-{System.out.println(" | primary_no_array_creation_expression");}
+void primary_no_array_creation_expression(String espaciado):
+{System.out.println(espaciado+" | primary_no_array_creation_expression");}
 {
-  literal()
-| simple_name()
-| parenthesized_expression()
-| post_decrement_expression()
-| post_increment_expression()
+  literal(espaciado+"  ")
+| simple_name(espaciado+"  ")
+| parenthesized_expression(espaciado+"  ")
+| post_decrement_expression(espaciado+"  ")
+| post_increment_expression(espaciado+"  ")
 }
 
-void  post_decrement_expression():
-{System.out.println(" | post_decrement_expression");}
+void  post_decrement_expression(String espaciado):
+{System.out.println(espaciado+" | post_decrement_expression");}
 {
    <MINMIN>
 }
 
-void  post_increment_expression():
-{System.out.println(" | post_increment_expression");}
+void  post_increment_expression(String espaciado):
+{System.out.println(espaciado+" | post_increment_expression");}
 {
   <PLUSPLUS>
 }
@@ -782,30 +787,30 @@ void  post_increment_expression():
 █░░ █ ▀█▀ █▀▀ █▀█ ▄▀█ █░░
 █▄▄ █ ░█░ ██▄ █▀▄ █▀█ █▄▄
 */
-void literal():
-{System.out.println(" | literal"); 
+void literal(String espaciado):
+{System.out.println(espaciado+" | literal"); 
 Token token;}
 {
-  token = <INTEGER_LITERAL> {System.out.println(" INTEGER_LITERAL => " + token.image);}
-| token = <REAL_LITERAL> {System.out.println("REAL_LITERAL => " + token.image);}
+  token = <INTEGER_LITERAL> {System.out.println(espaciado+" INTEGER_LITERAL => " + token.image);}
+| token = <REAL_LITERAL> {System.out.println(espaciado+"REAL_LITERAL => " + token.image);}
 }
 /*
 █▀ █ █▀▄▀█ █▀█ █░░ █▀▀ █▄░█ ▄▀█ █▀▄▀█ █▀▀
 ▄█ █ █░▀░█ █▀▀ █▄▄ ██▄ █░▀█ █▀█ █░▀░█ ██▄
 */
-void simple_name():
-{System.out.println(" | simple_name");
+void simple_name(String espaciado):
+{System.out.println(espaciado+" | simple_name");
  Token token;}
 {
-  token = <IDENTIFIER> {System.out.println("IDENTIFIER => " + token.image);}
+  token = <IDENTIFIER> {System.out.println(espaciado+"IDENTIFIER => " + token.image);}
 }
 
 /*
 █▀█ ▄▀█ █▀█ █▀▀ █▄░█ ▀█▀ █▀▀ █▀ █ █▀
 █▀▀ █▀█ █▀▄ ██▄ █░▀█ ░█░ ██▄ ▄█ █ ▄█
 */
-void  parenthesized_expression():
-{System.out.println(" | parenthesized_expression");}
+void  parenthesized_expression(String espaciado):
+{System.out.println(espaciado+" | parenthesized_expression");}
 {
-  <LPAREN> expression() <RPAREN>
+  <LPAREN> expression(espaciado+"  ") <RPAREN>
 }
