@@ -81,50 +81,20 @@ SKIP : {
 █░░ █ ▀█▀ █▀▀ █▀█ ▄▀█ █░░
 █▄▄ █ ░█░ ██▄ █▀▄ █▀█ █▄▄
 */
-/*
+
 TOKEN :
 {
-  <LITERAL : (<INTEGER_LITERAL> | <REAL_LITERAL>)>
-  | <INTEGER_LITERAL : <DECIMAL_INTEGER_LITERAL>>
-    | <#DECIMAL_INTEGER_LITERAL : (< DECIMAL_DIGIT >)+ (<INTEGER_TYPE_SUFFIX>)?>
-      | <#DECIMAL_DIGIT: ["0"-"9"]>
-      | <#INTEGER_TYPE_SUFFIX: ("U" | "u" | "L" | "l" | "UL" | "Ul" | "uL" | "ul" | "LU" | "Lu" | "lU" | "lu")>
-  
-  | <REAL_LITERAL : (<DECIMAL_DIGIT>)+ "." (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)? | "." (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)? | (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)>
+<INTEGER_LITERAL : <DECIMAL_INTEGER_LITERAL>>
+  | <#DECIMAL_INTEGER_LITERAL : (< DECIMAL_DIGIT >)+ (<INTEGER_TYPE_SUFFIX>)?>
+    | <#DECIMAL_DIGIT: ["0"-"9"]>
+    | <#INTEGER_TYPE_SUFFIX: ("U" | "u" | "L" | "l" | "UL" | "Ul" | "uL" | "ul" | "LU" | "Lu" | "lU" | "lu")>
+}
+
+TOKEN : 
+{
+  <REAL_LITERAL : (<DECIMAL_DIGIT>)+ "." (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)? | "." (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)? | (<DECIMAL_DIGIT>)+ (<REAL_TYPE_SUFFIX>)>
     | <#REAL_TYPE_SUFFIX : ("F" | "f" | "D" | "d" | "M" | "m")>
-}*/
-
-
-TOKEN :
-{
-< INTEGER_LITERAL: <DECIMAL_INTEGER_LITERAL >>
-| <#DECIMAL_INTEGER_LITERAL : (< DECIMAL_DIGIT >)+> /* Se puede aÃ±adir el Integer_Type_Suffix?*/
-| <#DECIMAL_DIGIT: ["0"-"9"] >
 }
-
-TOKEN : 
-{
-  <REAL_LITERAL : (<DECIMAL_DIGIT>)+ "." (<DECIMAL_DIGIT>)+ ("F" | "f" | "D" | "d" )? | "." (<DECIMAL_DIGIT>)+ | (<DECIMAL_DIGIT>)+ ("F" | "f" | "D" | "d" )>
-}
-
-/*
-TOKEN : 
-{
-  < ASSIGN: ("=" | "+=" | "-=") >          
-| < MINUS: "-" >
-| < PLUS :"+">
-| < STAR: "*" >
-| < SLASH: "/" >
-| < COMMA :",">
-| < PLUSPLUS : "++">
-| < MINMIN : "--">
-}
-
-TOKEN :
-{
-   < LPAREN : "(" >
-|  < RPAREN : ")" >
-} */
 
 /*
 █▀ █ █▀▀ █▄░█ █▀█ █▀   █▀▄ █▀▀   █▀█ █▀█ █▀▀ █▀█ ▄▀█ █▀▀ █ █▀█ █▄░█   █▄█   █▀▄ █▀▀
@@ -489,7 +459,7 @@ void embedded_statement(String espaciado):
 void expression_statement(String espaciado):
 {System.out.println(espaciado+" | expression_statement");}
 {
-  statement_expression(espaciado+"  ") <PUNTOCOMA>
+  statement_expression(espaciado+"  ") (token = <PUNTOCOMA> {System.out.println(espaciado+"****************** <PUNTOCOMA>" + token.image);}) 
 }
 
 void statement_expression(String espaciado):
@@ -507,9 +477,10 @@ void statement_expression(String espaciado):
 ░█░ ░█░ █▀▀ ██▄   █ █▄▀ ██▄ █░▀█ ░█░ █ █▀░ █ ██▄ █▀▄   ▀▀   ██▄ █░█ █▀▀ █▀▄ ██▄ ▄█ ▄█ █ █▄█ █░▀█
 */
 void declaration_statement(String espaciado):
-{System.out.println(espaciado+" | declaration_statement");}
+{System.out.println(espaciado+" | declaration_statement");
+Token token;}
 {
-  local_variable_declaration(espaciado+"  ") <PUNTOCOMA>
+  local_variable_declaration(espaciado+"  ") (token = <PUNTOCOMA> {System.out.println(espaciado+"****************** <PUNTOCOMA>" + token.image);}) 
 }
 
 void local_variable_declaration(String espaciado):
@@ -569,16 +540,16 @@ void integral_type(String espaciado):
 {System.out.println(espaciado+" | integral_type");
 Token token;}
 {
-  token = <INTEGER> {System.out.println(espaciado+" type => " + token.image);}
-| token = <LONG> {System.out.println(espaciado+" type => " + token.image);}
+  token = <INTEGER> {System.out.println(espaciado+"****************** <INTEGER> " + token.image);}
+| token = <LONG> {System.out.println(espaciado+"****************** <LONG> " + token.image);}
 }
 
 void floating_point_type(String espaciado):
 {System.out.println(espaciado+" | floating_point_type");
 Token token;}
 {
-  token = <FLOAT> {System.out.println(espaciado+" type => " + token.image);}
-| token = <DOUBLE> {System.out.println(espaciado+" type => " + token.image);}
+  token = <FLOAT> {System.out.println(espaciado+"****************** <FLOAT> " + token.image);}
+| token = <DOUBLE> {System.out.println(espaciado+"****************** <DOUBLE> " + token.image);}
 }
 
 /*
@@ -586,17 +557,19 @@ Token token;}
 █ █▄▀ ██▄ █░▀█ ░█░ █ █▀░ █ ██▄ █▀▄   ▀▀   ██▄ █░█ █▀▀ █▀▄ ██▄ ▄█ ▄█ █ █▄█ █░▀█   █▄
 */
 void local_variable_declarators(String espaciado):
-{System.out.println(espaciado+" | local_variable_declarators");}
+{System.out.println(espaciado+" | local_variable_declarators");
+}
 {
   local_variable_declarator(espaciado+"  ")
-| <COMMA> local_variable_declarator(espaciado+"  ")
+| (token = <COMMA> {System.out.println(espaciado+"******************  <COMMA> " + token.image);}) local_variable_declarator(espaciado+"  ")
 }
 
 void local_variable_declarator(String espaciado):
-{System.out.println(espaciado+" | local_variable_declarator");}
+{System.out.println(espaciado+" | local_variable_declarator");
+Token token;}
 {
-  <IDENTIFIER> <ASSIGNMENT_OPERATOR>  local_variable_initializer(espaciado+"  ")
-| <IDENTIFIER>
+  (token = <IDENTIFIER> {System.out.println(espaciado+"******************  <IDENTIFIER>  " + token.image);}) (token = <ASSIGNMENT_OPERATOR> {System.out.println(espaciado+"******************   <ASSIGNMENT_OPERATOR>  " + token.image);}) local_variable_initializer(espaciado+"  ")
+| (token = <IDENTIFIER> {System.out.println(espaciado+"******************  <IDENTIFIER>  " + token.image);})
 
 }
 
@@ -621,21 +594,9 @@ void expression(String espaciado):
 void assignment(String espaciado):
 {System.out.println(espaciado+" | assignment");}
 {
-  unary_expression(espaciado+"  ") (token = <ASSIGNMENT_OPERATOR> {System.out.println(espaciado+"   <ASSIGNMENT_OPERATOR> => " + token.image);}) expression(espaciado+"  ")  
+  unary_expression(espaciado+"  ") (token = <ASSIGNMENT_OPERATOR> {System.out.println(espaciado+"****************** <ASSIGNMENT_OPERATOR>  " + token.image);}) expression(espaciado+"  ")  
 }
 
-/*
-void assignment_operator(String espaciado):
-{System.out.println(espaciado+" | assignment_operator");
-Token token;}
-{
-  token = <ASSIGN>  {System.out.println(espaciado+" assign => " + token.image);}
-| token = "+=" {System.out.println(espaciado+" assign => " + token.image);}
-| token = "-=" {System.out.println(espaciado+" assign => " + token.image);}
-| token = "*=" {System.out.println(espaciado+" assign => " + token.image);}
-| token = "/=" {System.out.println(espaciado+" assign => " + token.image);}
-| token = "%=" {System.out.println(espaciado+" assign => " + token.image);}
-}*/
 
 /*
 █▄░█ █▀█ █▄░█   ▄▀█ █▀ █▀ █ █▀▀ █▄░█
@@ -717,17 +678,17 @@ void shift_expression(String espaciado):
 
 void additive_expression(String espaciado):
 {System.out.println(espaciado+" | additive_expression");
-Token token;}
+ Token token;}
 {
-  multiplicative_expression(espaciado+"  ") (( token = <PLUS> {System.out.println(espaciado+"   <PLUS> => " + token.image);} |  token = <MINUS> {System.out.println(espaciado+"   <MINUS> => " + token.image);} )multiplicative_expression(espaciado+"  "))*
+  multiplicative_expression(espaciado+"  ") (( token = <PLUS> {System.out.println(espaciado+"******************  <PLUS>  " + token.image);} |  token = <MINUS> {System.out.println(espaciado+"******************  <MINUS>  " + token.image);} )multiplicative_expression(espaciado+"  "))*
   
 }
 
 void multiplicative_expression(String espaciado):
 {System.out.println(espaciado+" | multiplicative_expression");
-Token token;}
+ Token token;}
 {
-  unary_expression(espaciado+"  ") ( (token =  <STAR> {System.out.println(espaciado+"   <STAR> => " + token.image);}| token = <SLASH> {System.out.println(espaciado+"   <SLAHS> => " + token.image);}) unary_expression(espaciado+"  "))*
+  unary_expression(espaciado+"  ") ( (token =  <STAR> {System.out.println(espaciado+"******************   <STAR>  " + token.image);}| token = <SLASH> {System.out.println(espaciado+"******************   <SLAHS>  " + token.image);}) unary_expression(espaciado+"  "))*
 }
 
 /*
@@ -735,24 +696,27 @@ Token token;}
 █▄█ █░▀█ █▀█ █▀▄ ░█░
 */
 void unary_expression(String espaciado):
-{System.out.println(espaciado+" | unary_expression");}
+{System.out.println(espaciado+" | unary_expression");
+ Token token;}
 {
   primary_expression(espaciado+"  ")
-| ( <PLUS> | <MINUS> ) unary_expression(espaciado+"  ")
+| ((token =  <PLUS> {System.out.println(espaciado+"******************  <PLUS>  " + token.image);})  | (token =  <MINUS> {System.out.println(espaciado+"******************  <MINUS>  " + token.image);}) ) unary_expression(espaciado+"  ")
 | pre_increment_expression(espaciado+"  ")
 | pre_decrement_expression(espaciado+"  ")
 }
 
 void pre_increment_expression(String espaciado):
-{System.out.println(espaciado+" | pre_increment_expression");}
+{System.out.println(espaciado+" | pre_increment_expression");
+ Token token;}
 {
-  <PLUSPLUS> unary_expression(espaciado+"  ")
+  (token =  <PLUSPLUS> {System.out.println(espaciado+"****************** <PLUSPLUS>  " + token.image);}) unary_expression(espaciado+"  ")
 }
 
 void pre_decrement_expression(String espaciado):
-{System.out.println(espaciado+" | pre_decrement_expression");}
+{System.out.println(espaciado+" | pre_decrement_expression");
+ Token token;}
 {
-  <MINMIN> unary_expression(espaciado+"  ")
+  (token =  <MINMIN> {System.out.println(espaciado+"******************  <MINMIN>  " + token.image);})  unary_expression(espaciado+"  ")
 }
 
 void primary_expression(String espaciado):
@@ -772,15 +736,17 @@ void primary_no_array_creation_expression(String espaciado):
 }
 
 void  post_decrement_expression(String espaciado):
-{System.out.println(espaciado+" | post_decrement_expression");}
+{System.out.println(espaciado+" | post_decrement_expression");
+ Token token;}
 {
-   <MINMIN>
+  (token =  <MINMIN> {System.out.println(espaciado+"****************** <MINMIN>  " + token.image);}) 
 }
 
 void  post_increment_expression(String espaciado):
-{System.out.println(espaciado+" | post_increment_expression");}
+{System.out.println(espaciado+" | post_increment_expression");
+ Token token;}
 {
-  <PLUSPLUS>
+ (token =  <PLUSPLUS> {System.out.println(espaciado+"****************** <PLUSPLUS>  " + token.image);}) 
 }
 
 /*
@@ -791,8 +757,8 @@ void literal(String espaciado):
 {System.out.println(espaciado+" | literal"); 
 Token token;}
 {
-  token = <INTEGER_LITERAL> {System.out.println(espaciado+" INTEGER_LITERAL => " + token.image);}
-| token = <REAL_LITERAL> {System.out.println(espaciado+"REAL_LITERAL => " + token.image);}
+  token = <INTEGER_LITERAL> {System.out.println(espaciado+" INTEGER_LITERAL  " + token.image);}
+| token = <REAL_LITERAL> {System.out.println(espaciado+"REAL_LITERAL  " + token.image);}
 }
 /*
 █▀ █ █▀▄▀█ █▀█ █░░ █▀▀ █▄░█ ▄▀█ █▀▄▀█ █▀▀
@@ -802,7 +768,7 @@ void simple_name(String espaciado):
 {System.out.println(espaciado+" | simple_name");
  Token token;}
 {
-  token = <IDENTIFIER> {System.out.println(espaciado+"IDENTIFIER => " + token.image);}
+  token = <IDENTIFIER> {System.out.println(espaciado+"IDENTIFIER  " + token.image);}
 }
 
 /*
@@ -810,7 +776,8 @@ void simple_name(String espaciado):
 █▀▀ █▀█ █▀▄ ██▄ █░▀█ ░█░ ██▄ ▄█ █ ▄█
 */
 void  parenthesized_expression(String espaciado):
-{System.out.println(espaciado+" | parenthesized_expression");}
+{System.out.println(espaciado+" | parenthesized_expression");
+ Token token;}
 {
-  <LPAREN> expression(espaciado+"  ") <RPAREN>
+  (token =  <LPAREN> {System.out.println(espaciado+"******************  <LPAREN>  " + token.image);}) expression(espaciado+"  ") (token =  <RPAREN> {System.out.println(espaciado+"****************** <RPAREN>  " + token.image);})
 }
