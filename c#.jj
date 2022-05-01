@@ -119,13 +119,28 @@ TOKEN :
 */
 TOKEN : 
 {
-  <KEYWORD : ("int" | "float" | "long" | "double")>
+  <INTEGER : "int">
+| <FLOAT : "float">
+| <LONG : "long">
+| <DOUBLE : "double"> 
 }
 
 
 TOKEN : 
 {
-  <OPERATOR_OR_PUNCTUATOR : ( "("  | ")"  | "."  | ","  | ":"  | ";" |  "+"  | "-"  | "%" | "*" | "/" | "=" | "++" | "--" | "+=" | "-=" | "*=" | "/=" | "%=" )>
+  <LPAREN : "(" >
+| <RPAREN : ")" >
+| <POINT : ".">
+| <COMMA : ",">
+| <DOSPUNTOS : ":">
+| <PUNTOCOMA : ";">
+| <ASSIGN: ("=" | "+=" | "-=") >          
+| <MINUS: "-" >
+| <PLUS :"+">
+| <STAR: "*" >
+| <SLASH: "/" >
+| <PLUSPLUS : "++">
+| <MINMIN : "--">
 }
 
 /* 
